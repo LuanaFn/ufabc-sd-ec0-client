@@ -1,13 +1,11 @@
-package app;
+package main.java.app;
 
-import java.util.logging.Level;
+import org.apache.log4j.Logger;
 
-import com.sun.istack.internal.logging.Logger;
-
-import client.EchoClient;
+import main.java.client.EchoClient;
 
 public class ChamaServer {
-	static Logger log;
+	static Logger log = Logger.getLogger(ChamaServer.class);
 	
 	/**
 	 * @param args
@@ -35,7 +33,7 @@ public class ChamaServer {
 			
 		} catch (Exception e) {
 			
-			log.logException(e, Level.SEVERE);
+			log.error(e);
 			
 		}
 
