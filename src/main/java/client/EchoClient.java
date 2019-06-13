@@ -13,7 +13,7 @@ import main.java.app.ChamaServer;
 public class EchoClient {
 	private DatagramSocket socket;
 	private InetAddress address;
-	Logger log = Logger.getLogger(EchoClient.class);
+	//Logger log = Logger.getLogger(EchoClient.class);
 
 	private byte[] buf;
 
@@ -29,17 +29,17 @@ public class EchoClient {
 
 		try {
 			socket.send(packet);
-			log.info("Mensagem enviada ao server: " + msg);
+			System.out.println("Mensagem enviada ao server: " + msg);
 
 			packet = new DatagramPacket(buf, buf.length);
 			socket.receive(packet);
 			received = new String(packet.getData(), 0, packet.getLength());
 
-			log.info("Mensagem recebida do server: " + received);
+			System.out.println("Mensagem recebida do server: " + received);
 		}
 
 		catch (Exception ex) {
-			log.error(ex);
+			ex.printStackTrace();
 		}
 		return received;
 	}
