@@ -8,7 +8,22 @@ import main.java.client.EchoClient;
 
 public class ChamaServer {
 	// static Logger log = Logger.getLogger(ChamaServer.class);
+	
 	private static String prefixo = "!////MENSAGEM COMECA AQUI////!";
+	private static int msgEnviadas = 0;
+	
+	/**
+	 * Retorna o número da mensagem a ser enviada
+	 * não funciona com numeros de mais de 8 digitos
+	 * @return
+	 */
+	public static String getPrefixo() {
+		
+		String n = String.valueOf(msgEnviadas);
+		msgEnviadas++;
+		
+		return ("00000000" + n).substring(n.length()) + prefixo;
+	}
 
 	/**
 	 * @param args
@@ -19,9 +34,9 @@ public class ChamaServer {
 			String msg1 = "hello server";
 
 			// testa o server
-			String echo = client.sendEcho("1" + prefixo + msg1);
+			String echo = client.sendEcho(getPrefixo() + msg1);
 			if (msg1.equals(echo)) {
-				echo = client.sendEcho("2" + prefixo + "server recebeu o primeiro hello");
+				echo = client.sendEcho(getPrefixo() + "server recebeu o primeiro hello");
 
 				System.out.println("Primeiro teste ok. ");
 			}
@@ -36,13 +51,12 @@ public class ChamaServer {
 			// testando como funciona o envio sequencial
 			for (int i = 3; i < 15; i++) {
 				
-				//cria um numero atomico no valor de i
-				final AtomicInteger ordem = new AtomicInteger(i);
+				final AtomicInteger n = new AtomicInteger(i);
 				
 				// atraves de threads para enviar ao mesmo tempo
 				new Thread(new Runnable() {
 					public void run() {
-						client.sendEcho(ordem + prefixo + "mensagem "+ordem);
+						client.sendEcho(getPrefixo() + "mensagem "+ n);
 					}
 				}).start();
 				
